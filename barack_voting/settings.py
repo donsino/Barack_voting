@@ -152,4 +152,4 @@ cloudinary.config(
 )
 
 #  Making cloudinary default
-DEFAULT_FILE_STORAGE = 'Cloudinarystorage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
