@@ -3,6 +3,7 @@ import os
 from decouple import config
 import dj_database_url  # <-- this is required
 from django.contrib import messages
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +33,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'elections',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,5 +139,17 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     messages.WARNING: 'warning',
     messages.SUCCESS: 'Success',
-    messages.INFO: 'success',
+    messages.INFO: 'Info',
 }
+
+
+# cloudinary configuration
+
+cloudinary.config(
+    cloud_name="dg0au6hzf",
+    api_key="965716438493889",
+    api_secret="vK_iANayjC01NwpVhb5Bc85hQ-M"
+)
+
+#  Making cloudinary default
+DEFAULT_FILE_STORAGE = 'Cloudinarystorage.storage.MediaCloudinaryStorage'
