@@ -146,9 +146,9 @@ MESSAGE_TAGS = {
 # cloudinary configuration
 
 cloudinary.config(
-    cloud_name="dg0au6hzf",
-    api_key="965716438493889",
-    api_secret="vK_iANayjC01NwpVhb5Bc85hQ-M"
+    cloud_name = config('CLOUD_NAME'),
+    api_key = config('API_KEY'),
+    api_secret = config('API_SECRET')
 )
 
 #  Making cloudinary default
