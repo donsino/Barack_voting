@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Barrack Voting System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+{% block content %}
+         <div class="container text-center mt-5">
+            <h1 class="mb-4">6 DIVISON ARMY BARACK CORPERS VOTING PLATFORM</h1>
+            <p class="lead"> Vote securely from anywhere</p>
+
+            <div class="mt-4">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-success btn-lg">Register</a>
+            </div>
+        </div>
+{% endblock content %}
+
+</body>
+</html>

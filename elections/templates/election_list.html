@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+    {% block title %} ELECTION LIST {% endblock title %}
+    
+{% block content %}
+
+      <div class="text-end mb-3">
+        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    
+    
+    <div class="container mt-5">
+        <h2>Available Elections</h2>
+        
+        <div class="row">
+            {% for election in elections %}
+            <div class="col-md-4">
+                <div class="card p-3 mb-3 shadow">
+                    <h5>{{ election.title }}</h5>
+                    <a href="{% url 'vote_election' election.id %}" class="btn btn-primary">
+                       Vote Now
+                    </a>
+
+                    <a href="{% url 'results' election.id %}" class="btn btn-outline-dark mt-2">
+                      View Results
+                    </a>
+                </div>
+            </div>
+
+            {% empty %}
+            <p> No active elections </p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+
+</body>
+</html>

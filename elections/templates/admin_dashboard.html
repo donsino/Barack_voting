@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4"> Admin Dashboard</h2>
+
+    {% for election_data in data %}
+        <div class="card p-4 mb-5 shadow">
+            <h3>{{ election_data.election.title }}</h3>
+<a href="{% url 'export_excel' election_data.election.id %}" class="btn btn-success btn-sm">
+    Download Excel
+</a>
+
+<a href="{% url 'export_pdf' election_data.election.id %}" class="btn btn-danger btn-sm">
+    Download PDF
+</a>
+
+            {% for item in election_data.positions %}
+                <div class="mt-4">
+                    <h5>{{ item.position.title }}</h5>
+                    <canvas id="chart{{ forloop.parentloop.counter }}{{ forloop.counter }}"></canvas>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    const ctx{{ forloop.parentloop.counter }}{{ forloop.counter }} =
+                        document.getElementById('chart{{ forloop.parentloop.counter }}{{ forloop.counter }}');
+
+                    new Chart(ctx{{ forloop.parentloop.counter }}{{ forloop.counter }}, {
+                        type: 'pie',
+                        data: {
+                            labels: [
+                                {% for c in item.candidates %}
+                                    "{{ c.name }}",
+                                {% endfor %}
+                            ],
+                            datasets: [{
+                                data: [
+                                    {% for c in item.candidates %}
+                                        {{ c.vote_count }},
+                                    {% endfor %}
+                                ]
+                            }]
+                        }
+                    });
+                </script>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

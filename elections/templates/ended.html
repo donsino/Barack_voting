@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="card p-5 shadow">
+        <h3 class="text-danger">Election Ended</h3>
+        <p>Voting is closed.</p>
+        <a href="{% url 'results' election.id %}" class="btn btn-primary">View Results</a>    
+    </div>
+</div>
+{% endblock %}

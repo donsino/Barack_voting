@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<!-- Time setting -->
+
+<div class="alert alert-info text-center">
+    <strong>Election Ends In:</strong>
+    <span id="countdown"></span>
+</div>
+
+<script>
+    const endTime = new Date("{{ election.end_time|date:'Y-m-d H:i:s' }}").getTime();
+
+    const timer = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        if (distance < 0) {
+            clearInterval(timer);
+            document.getElementById("countdown").innerHTML = "Election Ended";
+            return;
+        }
+
+        const hours = Math.floor((distance / (1000 * 60 * 60)));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML =
+            hours + "h " + minutes + "m " + seconds + "s ";
+    }, 1000);
+</script>
+ <!-- end of time setting -->
+
+ 
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">{{ election.title }}</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% for position in positions %}
+            <div class="card p-4 mb-4 shadow">
+                <h4 class="mb-3 text-primary">{{ position.title }}</h4>
+
+                <div class="row">
+                    {% for candidate in position.candidates.all %}
+                    
+                        <div class="col-md-4 mb-3">
+                            <label class="w-100">
+                                <input type="radio" name="position_{{ position.id }}"value="{{ candidate.id }}"class="d-none" required>
+
+                                <div class="card candidate-card text-center p-3 shadow-sm">
+                                    
+                                    {% if candidate.photo %}
+                                        <img src="{{ candidate.photo.url }}"
+                                             class="img-fluid rounded mb-2"
+                                             style="height:150px; object-fit:cover;">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/150"
+                                             class="img-fluid rounded mb-2">
+                                    {% endif %}
+
+                                    <h5>{{ candidate.name }}</h5>
+                                </div>
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <button class="btn btn-success w-100">Submit Vote</button>
+    </form>
+</div>
+
+<style>
+/* Highlight selected candidate */
+
+
+label input[type="radio"]:checked + .candidate-card {
+    border: 3px solid #198754;
+    background-color: #e9f7ef;
+    transform: scale(1.03);
+}
+
+.candidate-card {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.candidate-card:hover {
+    transform: scale(1.05);
+}
+</style>
+
+{% endblock content %}

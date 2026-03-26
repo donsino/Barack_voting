@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center">{{ election.title }} RESULTS</h2>
+
+    {% for item in results %}
+        <div class="card p-4 mb-4 shadow">
+            <h4>{{ item.position.title }}</h4>
+
+            <canvas id="chart{{ forloop.counter }}"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx{{ forloop.counter }} = document.getElementById('chart{{ forloop.counter }}');
+
+            new Chart(ctx{{ forloop.counter }}, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% for c in item.candidates %}
+                            "{{ c.name }}",
+                        {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Votes',
+                        data: [
+                            {% for c in item.candidates %}
+                                {{ c.vote_count }},
+                            {% endfor %}
+                        ],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        </script>
+    {% endfor %}
+</div>
+
+{% endblock %}
